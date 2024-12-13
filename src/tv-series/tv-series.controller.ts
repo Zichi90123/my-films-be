@@ -22,4 +22,12 @@ export class TvSeriesController {
     const { language, page } = query;
     return this.tvSeriesService.findPopular(language, page);
   }
+
+  @Get('/trending')
+  async findTrending(
+    @Query() query: { language: string; page: number, time_window?: "day" | "week" },
+  ): Promise<Observable<TvSeriesList>> {
+    const { language, page } = query;
+    return this.tvSeriesService.findTrending(language, page);
+  }
 }

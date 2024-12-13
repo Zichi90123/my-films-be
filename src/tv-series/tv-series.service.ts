@@ -48,4 +48,24 @@ export class TvSeriesService {
         map(({ data }) => translateToTvSeriesList(data)),
       );
   }
+
+  async findTrending(
+    language: string,
+    page: number,
+    time_window: string = 'day',
+  ): Promise<Observable<TvSeriesList>> {
+    return this.httpService
+      .get(`/trending/tv/${time_window}?language=${language}&page=${page}`)
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw new HttpException(
+            (error.response.data as any)?.status_message ??
+              error.response.statusText,
+            error.status,
+          );
+        }),
+        map(({ data }) => (data)),
+      );
+  }
 }

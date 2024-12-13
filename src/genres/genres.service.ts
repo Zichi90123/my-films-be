@@ -30,4 +30,25 @@ export class GenresService {
       ),
     );
   }
+
+  async findMovieGenres(language: string): Promise<Observable<Genre[]>> {
+    return this.httpService.get(`genre/movie/list?language=${language}`).pipe(
+      catchError((error: AxiosError) => {
+        this.logger.error(error.response.data);
+        throw new HttpException(
+          (error.response.data as any)?.status_message ??
+            error.response.statusText,
+          error.status,
+        );
+      }),
+      map(({ data }) => 
+        data.genres.map(
+          (g: any): Genre => ({
+            id: g?.id,
+            name: g?.name,
+          }),
+        )
+      ),
+    );
+  }
 }

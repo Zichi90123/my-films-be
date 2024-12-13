@@ -11,9 +11,31 @@ export class TvSeriesService {
 
   constructor(private readonly httpService: HttpService) {}
 
-  async findTopRated(language: string, page: number): Promise<Observable<TvSeriesList>> {
+  async findTopRated(
+    language: string,
+    page: number,
+  ): Promise<Observable<TvSeriesList>> {
     return this.httpService
       .get(`tv/top_rated?language=${language}&page=${page}`)
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw new HttpException(
+            (error.response.data as any)?.status_message ??
+              error.response.statusText,
+            error.status,
+          );
+        }),
+        map(({ data }) => translateToTvSeriesList(data)),
+      );
+  }
+
+  async findPopular(
+    language: string,
+    page: number,
+  ): Promise<Observable<TvSeriesList>> {
+    return this.httpService
+      .get(`tv/popular?language=${language}&page=${page}`)
       .pipe(
         catchError((error: AxiosError) => {
           this.logger.error(error.response.data);

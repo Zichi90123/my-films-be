@@ -10,6 +10,7 @@ import {
   EnvironmentVariables,
   LoggerModule,
 } from '@lib/my-films-lib';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import {
     }),
     TvSeriesModule,
     LoggerModule,
+    GenresModule,
   ],
   controllers: [AppController],
   providers: [],

@@ -7,4 +7,7 @@ export const configValidationSchema = Joi.object({
     .default('development'),
   JWT_SECRET: Joi.string().required(),
   MONGO_URL: Joi.string().required(),
+  TMDB_API_KEY: Joi.string().required(),
+  TMDB_API_URL: Joi.string().required(),
+
 });

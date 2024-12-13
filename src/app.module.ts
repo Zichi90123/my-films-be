@@ -1,11 +1,15 @@
-import { configValidationSchema } from '@lib/my-films-lib/config/config.schema';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EnvironmentVariables } from '@lib/my-films-lib/config';
 import { AppController } from './app.controller';
+import { TvSeriesModule } from './tv-series/tv-series.module';
+import {
+  configValidationSchema,
+  EnvironmentVariables,
+  LoggerModule,
+} from '@lib/my-films-lib';
 
 @Module({
   imports: [
@@ -24,6 +28,8 @@ import { AppController } from './app.controller';
         uri: configService.get('MONGO_URL'),
       }),
     }),
+    TvSeriesModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [],

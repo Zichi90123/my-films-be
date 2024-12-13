@@ -1,9 +1,8 @@
-import { CreateUserDto, LoginDto } from '@lib/my-films-lib/dtos';
-import { SignInResource } from '@lib/my-films-lib/resources';
+import { CreateUserDto, LoginDto, SignInResource, UserDocument } from '@lib/my-films-lib';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +24,7 @@ export class AuthService {
     };
   }
 
-  async signUp(createUserDto: CreateUserDto) {
+  async signUp(createUserDto: CreateUserDto): Promise<UserDocument> {
     return this.usersService.create(createUserDto);
   }
 }

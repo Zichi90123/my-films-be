@@ -1,7 +1,7 @@
+import { User, UserSchema } from '@lib/my-films-lib';
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '@lib/my-films-lib/schemas';
+import { UsersService } from './users.service';
 
 @Module({
   imports: [

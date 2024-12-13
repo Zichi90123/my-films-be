@@ -1,16 +1,22 @@
-import { AuthGuard } from '@lib/my-films-lib/auth';
-import { CreateUserDto, LoginDto } from '@lib/my-films-lib/dtos';
-import { SignInResource } from '@lib/my-films-lib/resources';
+import {
+  AuthGuard,
+  CreateUserDto,
+  LoginDto,
+  SignInResource,
+  User,
+  UserDocument,
+} from '@lib/my-films-lib';
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
   Request,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from '@lib/my-films-lib/schemas';
 
 @Controller('auth')
 export class AuthController {
@@ -22,8 +28,9 @@ export class AuthController {
   }
 
   @Post('signup')
-  signUp(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.authService.signUp(createUserDto);
+  async signUp(@Body() createUserDto: CreateUserDto): Promise<User> {
+    const user = await this.authService.signUp(createUserDto);
+    return user;
   }
 
   @UseGuards(AuthGuard)

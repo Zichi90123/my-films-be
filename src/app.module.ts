@@ -11,6 +11,8 @@ import {
   LoggerModule,
 } from '@lib/my-films-lib';
 import { GenresModule } from './genres/genres.module';
+import { MoviesController } from './movies/movies.controller';
+import { MoviesModule } from './movies/movies.module';
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { GenresModule } from './genres/genres.module';
     TvSeriesModule,
     LoggerModule,
     GenresModule,
+    MoviesModule,
   ],
   controllers: [AppController],
   providers: [],

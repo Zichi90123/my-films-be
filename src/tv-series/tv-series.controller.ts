@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { List, TvSerie } from '@lib/my-films-lib';
+import { Controller, Get, Query } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { TvSeriesService } from './tv-series.service';
-import { TvSeriesList } from '@lib/my-films-lib';
-import { catchError, map, Observable } from 'rxjs';
 
 @Controller('tv-series')
 export class TvSeriesController {
@@ -10,7 +10,7 @@ export class TvSeriesController {
   @Get('/top-rated')
   async findTopRated(
     @Query() query: { language: string; page: number },
-  ): Promise<Observable<TvSeriesList>> {
+  ): Promise<Observable<List<TvSerie>>> {
     const { language, page } = query;
     return this.tvSeriesService.findTopRated(language, page);
   }
@@ -18,16 +18,21 @@ export class TvSeriesController {
   @Get('/popular')
   async findPopular(
     @Query() query: { language: string; page: number },
-  ): Promise<Observable<TvSeriesList>> {
+  ): Promise<Observable<List<TvSerie>>> {
     const { language, page } = query;
     return this.tvSeriesService.findPopular(language, page);
   }
 
   @Get('/trending')
   async findTrending(
-    @Query() query: { language: string; page: number, time_window?: "day" | "week" },
-  ): Promise<Observable<TvSeriesList>> {
-    const { language, page } = query;
-    return this.tvSeriesService.findTrending(language, page);
+    @Query()
+    query: {
+      language: string;
+      page: number;
+      time_window?: 'day' | 'week';
+    },
+  ): Promise<Observable<List<TvSerie>>> {
+    const { language, page, time_window } = query;
+    return this.tvSeriesService.findTrending(language, page, time_window);
   }
 }

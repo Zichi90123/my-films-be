@@ -1,5 +1,4 @@
-import { TvSeriesList } from '@lib/my-films-lib';
-import { translateToTvSeriesList } from '@lib/my-films-lib/utils/translate-to-tv-series-list';
+import { List, translateToTvSeriesList, TvSerie } from '@lib/my-films-lib';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { AxiosError } from 'axios';
@@ -14,7 +13,7 @@ export class TvSeriesService {
   async findTopRated(
     language: string,
     page: number,
-  ): Promise<Observable<TvSeriesList>> {
+  ): Promise<Observable<List<TvSerie>>> {
     return this.httpService
       .get(`tv/top_rated?language=${language}&page=${page}`)
       .pipe(
@@ -33,7 +32,7 @@ export class TvSeriesService {
   async findPopular(
     language: string,
     page: number,
-  ): Promise<Observable<TvSeriesList>> {
+  ): Promise<Observable<List<TvSerie>>> {
     return this.httpService
       .get(`tv/popular?language=${language}&page=${page}`)
       .pipe(
@@ -53,7 +52,7 @@ export class TvSeriesService {
     language: string,
     page: number,
     time_window: string = 'day',
-  ): Promise<Observable<TvSeriesList>> {
+  ): Promise<Observable<List<TvSerie>>> {
     return this.httpService
       .get(`/trending/tv/${time_window}?language=${language}&page=${page}`)
       .pipe(
@@ -65,7 +64,7 @@ export class TvSeriesService {
             error.status,
           );
         }),
-        map(({ data }) => (data)),
+        map(({ data }) => translateToTvSeriesList(data)),
       );
   }
 }

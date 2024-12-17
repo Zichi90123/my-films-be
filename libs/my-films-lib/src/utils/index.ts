@@ -7,3 +7,5 @@ export * from './translate-to-production-company';
 export * from './translate-to-production-country';
 export * from './translate-to-language';
 export * from './translate-to-movie-details';
+export * from './translate-to-search-result';
+export * from './translate-to-search-result-list';

@@ -5,3 +5,4 @@ export * from './config';
 export * from './resources';
 export * from './schemas';
 export * from './utils';
+export * from './enum';

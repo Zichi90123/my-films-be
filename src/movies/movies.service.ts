@@ -3,8 +3,10 @@ import {
   Movie,
   translateToMovieDetails,
   translateToMoviesList,
+  WatchProviders,
 } from '@lib/my-films-lib';
 import { MovieDetails } from '@lib/my-films-lib/resources/movie-detail.interface';
+import { translateToWatchProviders } from '@lib/my-films-lib/utils/translate-to-watch-providers';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { AxiosError } from 'axios';
@@ -113,6 +115,45 @@ export class MoviesService {
         );
       }),
       map(({ data }) => translateToMovieDetails(data)),
+    );
+  }
+
+  async findSimilar(
+    id: number,
+    language: string,
+    page: number,
+  ): Promise<Observable<List<Movie>>> {
+    return this.httpService
+      .get(`/movie/${id}/similar?language=${language}&page=${page}`)
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw new HttpException(
+            (error.response.data as any)?.status_message ??
+              error.response.statusText,
+            error.status,
+          );
+        }),
+        map(({ data }) => translateToMoviesList(data)),
+      );
+  }
+
+  async findWatchProviders(
+    id: number,
+    region: string,
+  ): Promise<Observable<WatchProviders>> {
+    return this.httpService.get(`/movie/${id}/watch/providers`).pipe(
+      catchError((error: AxiosError) => {
+        this.logger.error(error.response.data);
+        throw new HttpException(
+          (error.response.data as any)?.status_message ??
+            error.response.statusText,
+          error.status,
+        );
+      }),
+      map(({ data }) =>
+        translateToWatchProviders(data.results[region] ?? data.results['IT']),
+      ),
     );
   }
 }

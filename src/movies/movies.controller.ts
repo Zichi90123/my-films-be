@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Observable } from 'rxjs';
-import { List, Movie } from '@lib/my-films-lib';
+import { List, Movie, WatchProviders } from '@lib/my-films-lib';
 import { MovieDetails } from '@lib/my-films-lib/resources/movie-detail.interface';
 
 @Controller('movies')
@@ -53,5 +53,23 @@ export class MoviesController {
   ): Promise<Observable<MovieDetails>> {
     const { language } = query;
     return this.moviesService.getMovieDetails(id, language);
+  }
+
+  @Get('/:id/similar')
+  async getSimilarMovies(
+    @Query() query: { language: string; page: number },
+    @Param('id') id: number,
+  ): Promise<Observable<List<Movie>>> {
+    const { language, page } = query;
+    return this.moviesService.findSimilar(id, language, page);
+  }
+
+  @Get('/:id/watch/providers')
+  async getWatchProviders(
+    @Query() query: { region: string },
+    @Param('id') id: number,
+  ): Promise<Observable<WatchProviders>> {
+    const { region } = query;
+    return this.moviesService.findWatchProviders(id, region);
   }
 }

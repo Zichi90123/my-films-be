@@ -13,6 +13,7 @@ import {
 import { GenresModule } from './genres/genres.module';
 import { MoviesController } from './movies/movies.controller';
 import { MoviesModule } from './movies/movies.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { MoviesModule } from './movies/movies.module';
     LoggerModule,
     GenresModule,
     MoviesModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [],

@@ -6,3 +6,6 @@ export * from './genre.interface';
 export * from './collection.interface';
 export * from './production-company.interface';
 export * from './production-country.interface';
+export * from './search-result.interface';
+export * from './flatrate.interface';
+export * from './watch-providers.interface';

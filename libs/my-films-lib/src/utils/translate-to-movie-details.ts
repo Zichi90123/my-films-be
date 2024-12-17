@@ -7,7 +7,9 @@ import { translateToProductionCountry } from './translate-to-production-country'
 export const translateToMovieDetails = (data: any): MovieDetails => ({
   adult: data?.adult,
   backdropPath: data?.backdrop_path,
-  belongsToCollection: translateToCollection(data?.belongs_to_collection),
+  belongsToCollection: data?.belongs_to_collection
+    ? translateToCollection(data?.belongs_to_collection)
+    : undefined,
   budget: data?.budget,
   genres: data?.genres,
   homepage: data?.homepage,

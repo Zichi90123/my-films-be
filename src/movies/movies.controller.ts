@@ -1,7 +1,13 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Observable } from 'rxjs';
-import { List, Movie, WatchProviders } from '@lib/my-films-lib';
+import {
+  Credits,
+  List,
+  Movie,
+  MovieImages,
+  WatchProviders,
+} from '@lib/my-films-lib';
 import { MovieDetails } from '@lib/my-films-lib/resources/movie-detail.interface';
 
 @Controller('movies')
@@ -77,8 +83,17 @@ export class MoviesController {
   async getCredits(
     @Query() query: { language: string },
     @Param('id') id: number,
-  ): Promise<Observable<any>> {
+  ): Promise<Observable<Credits>> {
     const { language } = query;
     return this.moviesService.findCredits(id, language);
+  }
+
+  @Get('/:id/images')
+  async getImages(
+    @Query() query: { language: string },
+    @Param('id') id: number,
+  ): Promise<Observable<MovieImages>> {
+    const { language } = query;
+    return this.moviesService.findImages(id, language);
   }
 }

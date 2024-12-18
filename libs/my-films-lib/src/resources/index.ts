@@ -9,3 +9,8 @@ export * from './production-country.interface';
 export * from './search-result.interface';
 export * from './flatrate.interface';
 export * from './watch-providers.interface';
+export * from './cast-member.interface';
+export * from './crew-member.interface';
+export * from './credits.interface';
+export * from './image.interface';
+export * from './movie-images.interface';

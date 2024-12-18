@@ -1,7 +1,11 @@
 import {
+  Credits,
   List,
   Movie,
+  MovieImages,
+  translateToCredits,
   translateToMovieDetails,
+  translateToMovieImages,
   translateToMoviesList,
   WatchProviders,
 } from '@lib/my-films-lib';
@@ -157,7 +161,10 @@ export class MoviesService {
     );
   }
 
-  async findCredits(id: number, language: string): Promise<Observable<any>> {
+  async findCredits(
+    id: number,
+    language: string,
+  ): Promise<Observable<Credits>> {
     return this.httpService
       .get(`/movie/${id}/credits?language=${language}`)
       .pipe(
@@ -169,7 +176,26 @@ export class MoviesService {
             error.status,
           );
         }),
-        map(({ data }) => data),
+        map(({ data }) => translateToCredits(data)),
+      );
+  }
+
+  async findImages(
+    id: number,
+    language: string,
+  ): Promise<Observable<MovieImages>> {
+    return this.httpService
+      .get(`/movie/${id}/images?include_image_language=en&language=${language}`)
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw new HttpException(
+            (error.response.data as any)?.status_message ??
+              error.response.statusText,
+            error.status,
+          );
+        }),
+        map(({ data }) => translateToMovieImages(data)),
       );
   }
 }

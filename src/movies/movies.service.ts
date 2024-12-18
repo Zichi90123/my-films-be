@@ -156,4 +156,20 @@ export class MoviesService {
       ),
     );
   }
+
+  async findCredits(id: number, language: string): Promise<Observable<any>> {
+    return this.httpService
+      .get(`/movie/${id}/credits?language=${language}`)
+      .pipe(
+        catchError((error: AxiosError) => {
+          this.logger.error(error.response.data);
+          throw new HttpException(
+            (error.response.data as any)?.status_message ??
+              error.response.statusText,
+            error.status,
+          );
+        }),
+        map(({ data }) => data),
+      );
+  }
 }

@@ -72,4 +72,13 @@ export class MoviesController {
     const { region } = query;
     return this.moviesService.findWatchProviders(id, region);
   }
+
+  @Get('/:id/credits')
+  async getCredits(
+    @Query() query: { language: string },
+    @Param('id') id: number,
+  ): Promise<Observable<any>> {
+    const { language } = query;
+    return this.moviesService.findCredits(id, language);
+  }
 }
